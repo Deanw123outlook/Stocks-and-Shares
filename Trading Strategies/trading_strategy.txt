@@ -1,0 +1,25 @@
+buy_signals = [] # (note RSI <= 30 considered oversold-->> buy) + + (Price moves close to Bollingor Lower Band considered oversold conditions -->> buy) ++ (MACD crosses above Signal line -->> buy)
+sell_signals = [] # (RSI >= 70 considered overbought -->> sale) + (Price moves close to Bollingor Upper Band considered overbought conditions -->> sale) ++ (MACD crosses below Signal line -->> sale)
+
+for i in range(len(df)):
+    # BUY trigger
+    if df['RSI'][i] <= 30 and df['Close'][i] <= df['bollingor_band_sma'][i] + 1.9 * df['bb_sma_std'][i] and df['macd'][i] > df['signal'][i]:
+        buy_signals.append(df['Close'][i])
+        sell_signals.append(np.nan)
+    # SELL trigger
+    elif df['RSI'][i] >= 70 and df['Close'][i] >= df['bollingor_band_sma'][i] - 1.9 * df['bb_sma_std'][i] and df['macd'][i] < df['signal'][i]:
+        sell_signals.append(df['Close'][i])
+        buy_signals.append(np.nan)
+    else:
+       buy_signals.append(np.nan)
+       sell_signals.append(np.nan)
+
+#Create DataFrame including all above features and randomly generated data
+strategy = pd.DataFrame ({'Date':df.Date,'Price':df.Close,'sma':df.SMA,
+                          'RSI':df.RSI,'RSI_Indicator':df.rsi_indicator,
+                          'bollingor_band_sma':df.bollingor_band_sma,
+                          'bb_sma_std':df.bb_sma_std,
+                          'bb_upper_band':df.bb_upper_band,'bb_lower_band':df.bb_lower_band,
+                          'macd':df.macd,'signal':df.signal,
+                          'buy_signals':buy_signals,'sell_signals':sell_signals})
+strategy
