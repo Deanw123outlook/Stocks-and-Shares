@@ -13,13 +13,3 @@ for i in range(len(df)):
     else:
        buy_signals.append(np.nan)
        sell_signals.append(np.nan)
-
-#Create DataFrame including all above features and randomly generated data
-strategy = pd.DataFrame ({'Date':df.Date,'Price':df.Close,'sma':df.SMA,
-                          'RSI':df.RSI,'RSI_Indicator':df.rsi_indicator,
-                          'bollingor_band_sma':df.bollingor_band_sma,
-                          'bb_sma_std':df.bb_sma_std,
-                          'bb_upper_band':df.bb_upper_band,'bb_lower_band':df.bb_lower_band,
-                          'macd':df.macd,'signal':df.signal,
-                          'buy_signals':buy_signals,'sell_signals':sell_signals})
-strategy
